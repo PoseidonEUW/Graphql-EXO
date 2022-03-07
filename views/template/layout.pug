@@ -1,0 +1,22 @@
+doctype html
+html(lang="en")
+  head
+    title ExpressExo
+    link(rel='stylesheet', href='./stylesheets/style.css')
+  body
+    block navbar
+      include ../includes/nav.pug
+    block content
+    
+    block footer 
+      include ../includes/footer.pug
+
+
+  script.
+    const btn = document.querySelector("button.mobile-menu-button");
+    const menu = document.querySelector(".mobile-menu");
+    btn.addEventListener("click", () => {
+    menu.classList.toggle("hidden");
+    });
+    
+      

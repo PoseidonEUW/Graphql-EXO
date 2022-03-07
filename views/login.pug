@@ -1,0 +1,18 @@
+extends template/layout 
+block content
+    .bg-gray-500.shadow-md.rounded.px-8.pt-6.pb-8.mb-4.flex.flex-col.mt-4
+        .mb-4
+            label.block.text-grey-900.text-sm.font-bold.mb-2(for='username')
+                | Username
+            input#username.shadow.appearance-none.border.rounded.w-full.py-2.px-3.text-grey-900(type='text' placeholder='Username')
+        .mb-6
+            label.block.text-grey-900.text-sm.font-bold.mb-2(for='password')
+                | Password
+            input#password.shadow.appearance-none.border.border-red.rounded.w-full.py-2.px-3.text-grey-900.mb-3(type='password' placeholder='******************')
+            p.text-red.text-xs.italic Please choose a password.
+        .flex.items-center.justify-between
+            button.bg-blue-900.text-white.font-bold.py-2.px-4.rounded(class='hover:bg-blue-900' type='button')
+                | Sign In
+            a.inline-block.align-baseline.font-bold.text-sm.text-blue-900(class='hover:text-blue-900' href='#')
+                | Forgot Password?
+
