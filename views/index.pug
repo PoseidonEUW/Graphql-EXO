@@ -1,6 +1,11 @@
 extends template/layout
 block content
-  h1= title
-  
-  p Welcome to #{title} 
-  p Test
+  .px-4.pt-2.pb-4.mb-2.flex.flex-col.mt-2
+    h1= title
+    
+    p Welcome to #{title} 
+    p Test
+  .flex.items-center.justify-center
+    //- img(src="../images/Node-image.png")
+    img.text-center(src="../images/Node-image.png")
+

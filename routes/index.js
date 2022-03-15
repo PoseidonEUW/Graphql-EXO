@@ -11,6 +11,9 @@ router.get('/aboutus', function(req, res, next) {
 router.get('/login', function(req, res, next) {
     res.render('login', { title: 'Login' });
 });
+router.get('/chat', function(req, res, next) {
+    res.render('chat', { title: 'Chat' });
+});
 
 
 

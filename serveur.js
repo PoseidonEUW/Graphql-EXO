@@ -42,4 +42,14 @@ app.use(function(err, req, res, next) {
     res.render('error');
 });
 
+// SOCKETIO
+// var APP_PORT = '8081'
+var io = require('socket.io')()
+io.on('connection', (socket) => {
+    console.log('a user connected')
+    socket.on('chatter', (message) => {
+        console.log('chatter : ', message)
+        io.emit('chatter', message)
+    })
+})
 module.exports = app;
