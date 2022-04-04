@@ -97,6 +97,8 @@ a {
 .Message {
   background: white;
   padding: 30px;
+  display:flex;
+  justify-content: center;
   border-bottom: var(--ui-shadow-border);
   box-shadow: var(--ui-shadow);
 }
