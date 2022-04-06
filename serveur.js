@@ -1,5 +1,6 @@
 var createError = require('http-errors');
 var express = require('express');
+var mysql = require('mysql');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
@@ -7,7 +8,7 @@ var logger = require('morgan');
 // Graphql
 var { graphqlHTTP } = require('express-graphql');
 var { buildSchema } = require('graphql');
-
+// 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 
@@ -27,21 +28,58 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
+// Mysql Connection
+app.use((req, res, next) => {
+
+    req.mysqlDb = mysql.createConnection({ host: 'localhost', user: 'root', password: '', database: 'ExoAPI' });
+    req.mysqlDb.connect();
+    next();
+
+});
 
 // Construct a schema, using GraphQL schema language
 var schema = buildSchema(`
-  type Query {
-    hello: String
+type Chanteur {
+    idChanteur: Int!
+    pseudo: String
+    nbrConcert: String
+    """
+    the list of Posts by this author
+    """
+    concerts: [Concert]
   }
-`);
+
+  type Concert {
+    idConcert: Int!
+    idtournee: String
+    dateConcert: String
+    ville: String
+    nbrPlaceVendu: String
+  }
+
+  # the schema allows the following query:
+  type Query {
+    concerts: [Concert]
+    chanteur(idChanteur: Int!): Chanteur
+  }
+
+  # this schema allows the following mutation:`);
 
 // The root provides a resolver function for each API endpoint
-var root = {
-    hello: () => {
-        return 'Hello world!';
-    },
-};
+// var database = mysql.createConnection({ host: 'localhost', user: 'root', password: '', database: 'ExoAPI' });
+// var concert = database.query(`select idConcert, idtournee,dateConcert,ville,nbrPlaceVendu from Concert`);
+app.use('/graphql', graphqlHTTP({
+    schema: schema,
+    // rootValue: concert,
+    graphiql: true,
+}));
 
+
+
+
+
+
+// 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
     res.render('404')
