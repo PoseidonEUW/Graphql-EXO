@@ -1,6 +1,8 @@
 var createError = require('http-errors');
 var express = require('express');
-var mysql = require('mysql');
+// MYSQL
+var mysql = require('mysql2');
+const query = require('./database/query');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
@@ -8,7 +10,6 @@ var logger = require('morgan');
 // Graphql
 var { graphqlHTTP } = require('express-graphql');
 var { buildSchema } = require('graphql');
-// 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 
@@ -30,7 +31,6 @@ app.use('/', indexRouter);
 app.use('/users', usersRouter);
 // Mysql Connection
 app.use((req, res, next) => {
-
     req.mysqlDb = mysql.createConnection({ host: 'localhost', user: 'root', password: '', database: 'ExoAPI' });
     req.mysqlDb.connect();
     next();
@@ -66,18 +66,12 @@ type Chanteur {
   # this schema allows the following mutation:`);
 
 // The root provides a resolver function for each API endpoint
-// var database = mysql.createConnection({ host: 'localhost', user: 'root', password: '', database: 'ExoAPI' });
-// var concert = database.query(`select idConcert, idtournee,dateConcert,ville,nbrPlaceVendu from Concert`);
+
 app.use('/graphql', graphqlHTTP({
     schema: schema,
-    // rootValue: concert,
+    rootValue: query,
     graphiql: true,
 }));
-
-
-
-
-
 
 // 
 // catch 404 and forward to error handler
