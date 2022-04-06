@@ -35,16 +35,17 @@ var schema = buildSchema(`
   }
 `);
 
+// The root provides a resolver function for each API endpoint
+var root = {
+    hello: () => {
+        return 'Hello world!';
+    },
+};
+
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
     res.render('404')
 });
-
-app.use('/graphql', graphqlHTTP({
-    schema: schema,
-    rootValue: root,
-    graphiql: true,
-}));
 
 // error handler
 app.use(function(err, req, res, next) {
